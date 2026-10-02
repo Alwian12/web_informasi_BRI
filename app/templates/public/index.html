@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+
+{% block title %}Beranda | Unit Indrapura{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light sticky-top site-navbar">
+  <div class="container">
+    <a class="site-brand" href="{{ url_for('public.index') }}">
+      <img class="brand-logo" src="{{ url_for('static', filename='img/logo-bri.png') }}" alt="Logo BRI">
+      <span class="site-brand-copy">
+        <strong>Unit Indrapura</strong>
+        <small>Information Portal</small>
+      </span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-2">
+        <li class="nav-item"><a class="nav-link active" href="{{ url_for('public.index') }}">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.about') }}">Profil</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.services') }}">Layanan</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.announcements') }}">Pengumuman</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.faq') }}">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.messages') }}">Pesan</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.feedback') }}">Feedback</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.contact') }}">Kontak</a></li>
+      </ul>
+    </div>
+
+    <div class="navbar-actions d-flex align-items-center gap-2 ms-auto ms-lg-3">
+      <a href="{{ url_for('auth.login') }}" class="btn btn-primary nav-cta"><i class="bi bi-shield-lock me-2"></i>Login Admin</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero-section">
+  <div class="container hero-layout">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="hero-copy reveal">
+          <span class="hero-kicker"><i class="bi bi-diagram-3"></i> Digital Banking Information Experience</span>
+          <h1>Informasi perbankan yang lebih jelas, lebih cepat, dan lebih dekat.</h1>
+          <p>Temukan layanan, pengumuman, dan kebutuhan perbankan dalam satu platform yang terstruktur, mudah dipahami, dan siap membantu Anda mengambil keputusan dengan lebih percaya diri.</p>
+          <div class="hero-actions">
+            <a href="{{ url_for('public.services') }}" class="hero-cta-primary">Jelajahi Layanan <i class="bi bi-arrow-right"></i></a>
+            <a href="{{ url_for('public.contact') }}" class="hero-cta-secondary">Hubungi Kami</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-visual reveal">
+          <div class="hero-panel">
+            <div class="hero-panel-inner">
+              <div class="hero-panel-head">
+                <span>Digital Information</span>
+                <span class="status-pill"><span class="status-dot"></span>24/7</span>
+              </div>
+              <div class="metric-stack">
+                <div class="metric-item">
+                  <div>
+                    <strong>{{ services|length }}</strong>
+                    <span>Layanan Aktif</span>
+                  </div>
+                  <div class="metric-icon"><i class="bi bi-bank"></i></div>
+                </div>
+                <div class="metric-item">
+                  <div>
+                    <strong>{{ announcements|length }}</strong>
+                    <span>Pengumuman</span>
+                  </div>
+                  <div class="metric-icon"><i class="bi bi-megaphone"></i></div>
+                </div>
+              </div>
+              <div class="metric-row">
+                <div class="metric-mini">
+                  <strong>99%</strong>
+                  <span>Akses</span>
+                </div>
+                <div class="metric-mini">
+                  <strong>Fast</strong>
+                  <span>Response</span>
+                </div>
+                <div class="metric-mini">
+                  <strong>Secure</strong>
+                  <span>Trust</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-soft public-section">
+  <div class="container">
+    <div class="row g-4 text-center">
+      <div class="col-md-3 col-6">
+        <div class="stat-card reveal">
+          <i class="bi bi-briefcase"></i>
+          <h4>{{ services|length }}</h4>
+          <span>Jumlah Layanan</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="stat-card reveal">
+          <i class="bi bi-megaphone"></i>
+          <h4>{{ announcements|length }}</h4>
+          <span>Pengumuman</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="stat-card reveal">
+          <i class="bi bi-info-circle"></i>
+          <h4>24/7</h4>
+          <span>Informasi</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="stat-card reveal">
+          <i class="bi bi-chat-dots"></i>
+          <h4>Live</h4>
+          <span>Perhatian</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="public-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-kicker">Layanan Unggulan</span>
+      <h2>Solusi informasi yang dirancang untuk kebutuhan Anda</h2>
+    </div>
+    <div class="feature-showcase">
+      <div class="showcase-main reveal">
+        {% set featured_service = services[0] if services else none %}
+        <div class="showcase-copy">
+          <span>Featured Information</span>
+          {% if featured_service %}
+          <h3>{{ featured_service.nama_layanan }}</h3>
+          <p>{{ featured_service.deskripsi[:180] }}{% if featured_service.deskripsi|length > 180 %}...{% endif %}</p>
+          <div class="showcase-meta">
+            <div class="showcase-meta-item"><i class="bi bi-shield-check"></i> {{ featured_service.category.nama_kategori }}</div>
+            <div class="showcase-meta-item"><i class="bi bi-clock-history"></i> Update real-time</div>
+          </div>
+          {% else %}
+          <h3>Informasi layanan yang siap membantu Anda</h3>
+          <p>Platform ini menyajikan layanan dan panduan yang jelas untuk kebutuhan masyarakat serta nasabah.</p>
+          {% endif %}
+        </div>
+      </div>
+      <div class="info-stack">
+        {% for service in services[:3] %}
+        <article class="mini-info-card reveal">
+          <div class="card-top">
+            <span class="tag">Layanan</span>
+            <span class="icon-pill"><i class="bi bi-bank"></i></span>
+          </div>
+          <h4>{{ service.nama_layanan }}</h4>
+          <p>{{ service.deskripsi[:100] }}{% if service.deskripsi|length > 100 %}...{% endif %}</p>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="public-section bg-soft">
+  <div class="container">
+    <div class="section-header text-center reveal">
+      <span class="section-kicker">Layanan</span>
+      <h2>Informasi yang paling sering dicari</h2>
+    </div>
+    <div class="row g-4">
+      {% for service in services %}
+      <div class="col-lg-4 col-md-6">
+        <div class="service-card reveal">
+          <div class="icon-wrap"><i class="bi bi-bank"></i></div>
+          <h4>{{ service.nama_layanan }}</h4>
+          <p>{{ service.deskripsi[:120] }}{% if service.deskripsi|length > 120 %}...{% endif %}</p>
+          <div class="card-badges">
+            <span class="badge bg-light text-primary">{{ service.category.nama_kategori }}</span>
+            <a href="{{ url_for('public.service_detail', slug=service.slug) }}" class="service-link">Detail <i class="bi bi-arrow-up-right"></i></a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="public-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-kicker">Informasi terbaru</span>
+      <h2>Pengumuman dan insight penting</h2>
+    </div>
+    <div class="row g-4">
+      {% for announcement in announcements %}
+      <div class="col-lg-4">
+        <article class="news-card reveal h-100">
+          <div class="news-image">
+            <i class="bi bi-newspaper"></i>
+          </div>
+          <div class="news-body">
+            <div class="news-head">
+              <span class="badge bg-success text-white">Aktif</span>
+              <small>{{ announcement.tanggal_publish.strftime('%d %b %Y') if announcement.tanggal_publish else 'Baru' }}</small>
+            </div>
+            <h4>{{ announcement.judul }}</h4>
+            <p>{{ announcement.isi[:150] }}{% if announcement.isi|length > 150 %}...{% endif %}</p>
+          </div>
+        </article>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="public-section pt-0">
+  <div class="container">
+    <div class="cta-box reveal">
+      <h2>Butuh informasi pelayanan yang lebih jelas?</h2>
+      <p>Kami siap membantu Anda menemukan solusi dan kebutuhan perbankan dengan pendekatan yang lebih cepat, modern, dan akuntabel.</p>
+      <a href="{{ url_for('public.contact') }}" class="hero-cta-primary">Hubungi Kami <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <h5>Unit Indrapura</h5>
+        <p>Website informasi pelayanan perbankan modern untuk memudahkan masyarakat mengakses layanan dan kebutuhan informasi.</p>
+      </div>
+      <div class="col-lg-2">
+        <h6>Menu Cepat</h6>
+        <ul>
+          <li><a href="{{ url_for('public.about') }}">Profil</a></li>
+          <li><a href="{{ url_for('public.services') }}">Layanan</a></li>
+          <li><a href="{{ url_for('public.announcements') }}">Pengumuman</a></li>
+          <li><a href="{{ url_for('public.faq') }}">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <h6>Kontak</h6>
+        <ul>
+          <li>Telp: {{ settings.telepon if settings else '(0751) 123456' }}</li>
+          <li>Email: {{ settings.email if settings else 'info@unitindrapura.com' }}</li>
+          <li>Alamat: {{ settings.alamat if settings else 'Jl. Indrapura' }}</li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <h6>Jam Operasional</h6>
+        <p>{{ settings.jam_operasional if settings else 'Senin - Jumat, 08:00 - 16:00' }}</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Unit Indrapura. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+{% endblock %}

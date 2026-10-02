@@ -1,0 +1,46 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Edit Layanan | Unit Indrapura{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Edit Layanan</h3>
+  <a href="{{ url_for('admin.services') }}" class="btn btn-outline-secondary">Kembali</a>
+</div>
+<div class="card-box">
+  <form method="POST" class="row g-3">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="col-md-6">
+      <label class="form-label">Nama Layanan</label>
+      <input type="text" class="form-control" name="nama_layanan" value="{{ service.nama_layanan }}" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Slug</label>
+      <input type="text" class="form-control" name="slug" value="{{ service.slug }}" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Kategori</label>
+      <select class="form-select" name="category_id" required>
+        {% for category in categories %}
+        <option value="{{ category.id }}" {% if service.category_id == category.id %}selected{% endif %}>{{ category.nama_kategori }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Estimasi Waktu</label>
+      <input type="text" class="form-control" name="estimasi_waktu" value="{{ service.estimasi_waktu or '' }}">
+    </div>
+    <div class="col-12"><label class="form-label">Deskripsi</label><textarea class="form-control" name="deskripsi" rows="3" required>{{ service.deskripsi }}</textarea></div>
+    <div class="col-12"><label class="form-label">Persyaratan</label><textarea class="form-control" name="persyaratan" rows="3" required>{{ service.persyaratan }}</textarea></div>
+    <div class="col-12"><label class="form-label">Prosedur</label><textarea class="form-control" name="prosedur" rows="3" required>{{ service.prosedur }}</textarea></div>
+    <div class="col-md-6">
+      <label class="form-label">Status</label>
+      <select class="form-select" name="status">
+        <option value="aktif" {% if service.status == 'aktif' %}selected{% endif %}>Aktif</option>
+        <option value="tidak_aktif" {% if service.status == 'tidak_aktif' %}selected{% endif %}>Tidak Aktif</option>
+      </select>
+    </div>
+    <div class="col-12"><button class="btn btn-primary" type="submit">Simpan Perubahan</button></div>
+  </form>
+</div>
+{% endblock %}

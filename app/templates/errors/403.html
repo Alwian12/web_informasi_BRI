@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}403 - Akses Ditolak{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container text-center">
+    <span class="section-tag">Error 403</span>
+    <h1>Akses Ditolak</h1>
+    <p>Anda tidak memiliki izin untuk mengakses halaman ini.</p>
+    <a href="{{ url_for('public.index') }}" class="btn btn-primary rounded-pill px-4 mt-3">Kembali ke Beranda</a>
+  </div>
+</section>
+{% endblock %}

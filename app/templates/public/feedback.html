@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Feedback | Unit Indrapura{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light sticky-top site-navbar">
+  <div class="container">
+    <a class="site-brand" href="{{ url_for('public.index') }}">
+      <img class="brand-logo" src="{{ url_for('static', filename='img/logo-bri.png') }}" alt="Logo BRI">
+      <span class="site-brand-copy">
+        <strong>Unit Indrapura</strong>
+        <small>Information Portal</small>
+      </span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-2">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.index') }}">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.about') }}">Profil</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.services') }}">Layanan</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.announcements') }}">Pengumuman</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.faq') }}">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.messages') }}">Pesan</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{{ url_for('public.feedback') }}">Feedback</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.contact') }}">Kontak</a></li>
+      </ul>
+    </div>
+
+    <div class="navbar-actions d-flex align-items-center gap-2 ms-auto ms-lg-3">
+      <a href="{{ url_for('auth.login') }}" class="btn btn-primary nav-cta"><i class="bi bi-shield-lock me-2"></i>Login Admin</a>
+    </div>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-kicker">Feedback</span>
+    <h1>Kritik & Saran Anda</h1>
+  </div>
+</section>
+
+<section class="public-section">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="card-box h-100">
+          <h3>Kenapa feedback penting?</h3>
+          <p>Masukan Anda membantu kami meningkatkan kualitas layanan, mempercepat respons, dan menyesuaikan pelayanan agar lebih tepat sasaran.</p>
+          <ul class="check-list">
+            <li>Meningkatkan kualitas layanan</li>
+            <li>Memperbaiki proses pelayanan</li>
+            <li>Menjawab kebutuhan masyarakat</li>
+            <li>Menjaga kepercayaan publik</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="card-box">
+          <h3>Form Feedback</h3>
+          <form method="POST" action="{{ url_for('public.feedback') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Nama</label>
+                <input class="form-control" type="text" name="nama" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input class="form-control" type="email" name="email" required />
+              </div>
+              <div class="col-12">
+                <label class="form-label">Kategori</label>
+                <select class="form-select" name="kategori" required>
+                  <option value="" selected disabled>Pilih kategori feedback</option>
+                  <option value="Pelayanan">Pelayanan</option>
+                  <option value="Informasi">Informasi</option>
+                  <option value="Saran">Saran</option>
+                  <option value="Kritik">Kritik</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Pesan</label>
+                <textarea class="form-control" name="pesan" rows="6" required></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary px-4">Kirim Feedback</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 Unit Indrapura. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+{% endblock %}

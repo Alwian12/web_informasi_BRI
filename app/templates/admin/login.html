@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Login Admin | Unit Indrapura{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+  <div class="auth-layout">
+    <section class="auth-intro">
+      <div class="auth-intro-inner">
+        <div class="auth-logo-wrap"><img src="{{ url_for('static', filename='img/logo-bri.png') }}" alt="Logo BRI"></div>
+        <span class="auth-eyebrow">Unit Indrapura · Portal Internal</span>
+        <h1>Informasi yang rapi. Pelayanan yang siap.</h1>
+        <p>Kelola layanan, pengumuman, FAQ, dan pesan masyarakat dari satu ruang kerja yang terpusat.</p>
+        <div class="auth-points">
+          <span><i class="bi bi-check2-circle"></i> Konten pelayanan terkontrol</span>
+          <span><i class="bi bi-check2-circle"></i> Data tersimpan di MySQL Laragon</span>
+        </div>
+      </div>
+    </section>
+    <section class="auth-form-side">
+      <div class="auth-card">
+        <div class="auth-form-heading">
+          <span class="section-tag">Admin access</span>
+          <h2>Selamat datang kembali</h2>
+          <p>Masuk untuk melanjutkan pengelolaan portal pelayanan.</p>
+        </div>
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+
+          <form method="POST" action="{{ url_for('auth.login') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <div class="mb-3">
+              <label class="form-label">Email / Username</label>
+              <input type="text" class="form-control" name="identifier" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" name="password" id="passwordInput" required />
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="showPassword">
+              <label class="form-check-label" for="showPassword">Tampilkan password</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 py-3">Masuk ke Dashboard <i class="bi bi-arrow-right ms-2"></i></button>
+          </form>
+      </div>
+      <small class="auth-footer-note">Akses ini khusus pengelola Unit Indrapura.</small>
+    </section>
+  </div>
+</div>
+{% endblock %}

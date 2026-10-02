@@ -1,0 +1,116 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Dashboard Admin | Unit Indrapura{% endblock %}
+
+{% block content %}
+<div class="admin-page-heading mb-4">
+  <div>
+    <span class="section-tag">Overview</span>
+    <h1>Ruang Kerja Admin</h1>
+    <p>Pantau informasi pelayanan dan tindak lanjuti kebutuhan masyarakat.</p>
+  </div>
+  <a class="btn btn-primary rounded-pill px-4" href="{{ url_for('public.index') }}" target="_blank"><i class="bi bi-box-arrow-up-right me-2"></i>Lihat Website</a>
+</div>
+<div class="quick-actions mb-4">
+  <div><span class="panel-kicker">Aksi cepat</span><strong>Mulai dari kebutuhan hari ini</strong></div>
+  <div class="quick-action-links">
+    <a href="{{ url_for('admin.services') }}"><i class="bi bi-plus-circle"></i>Tambah layanan</a>
+    <a href="{{ url_for('admin.announcements') }}"><i class="bi bi-megaphone"></i>Terbitkan pengumuman</a>
+    <a href="{{ url_for('admin.messages') }}"><i class="bi bi-inbox"></i>Buka pesan</a>
+  </div>
+</div>
+<div class="admin-attention mb-4">
+  <div><span class="panel-kicker">Perlu perhatian</span><strong>{{ stats.waiting_replies }} pesan menunggu balasan</strong><small>Prioritaskan komunikasi yang belum ditindaklanjuti.</small></div>
+  <a href="{{ url_for('admin.messages') }}" class="btn btn-sm btn-primary rounded-pill px-3">Tinjau pesan <i class="bi bi-arrow-right ms-1"></i></a>
+</div>
+<div class="row g-4 mb-4">
+  <div class="col-xl-3 col-md-6">
+    <div class="dashboard-card stat-primary">
+      <div class="icon"><i class="bi bi-briefcase"></i></div>
+      <div>
+        <span>Total Layanan</span>
+        <h3>{{ stats.services }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-md-6">
+    <div class="dashboard-card stat-info">
+      <div class="icon"><i class="bi bi-megaphone"></i></div>
+      <div>
+        <span>Total Pengumuman</span>
+        <h3>{{ stats.announcements }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-md-6">
+    <div class="dashboard-card stat-warning">
+      <div class="icon"><i class="bi bi-question-circle"></i></div>
+      <div>
+        <span>Total FAQ</span>
+        <h3>{{ stats.faqs }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-md-6">
+    <div class="dashboard-card stat-success">
+      <div class="icon"><i class="bi bi-chat-dots"></i></div>
+      <div>
+        <span>Total Pesan Masuk</span>
+        <h3>{{ stats.messages }}</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4 mb-4">
+  <div class="col-lg-8">
+    <div class="card-box h-100">
+      <div class="panel-heading"><div><span class="panel-kicker">Traffic</span><h4>Grafik Pengunjung</h4></div><span class="panel-period">6 bulan</span></div>
+      <div class="chart-frame line-chart" aria-label="Grafik pengunjung enam bulan">
+        <div class="chart-grid"></div>
+        <svg class="line-plot" viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label="Jumlah kunjungan per bulan">
+          <polyline points="{{ chart_points }}" fill="none" stroke="var(--secondary)" stroke-width="2.2" vector-effect="non-scaling-stroke" />
+        </svg>
+        <div class="chart-axis">{% for label in chart_labels %}<span>{{ label }}</span>{% endfor %}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card-box h-100">
+      <div class="panel-heading"><div><span class="panel-kicker">Inbox</span><h4>Grafik Pesan</h4></div><span class="panel-period">6 bulan</span></div>
+      <div class="chart-frame bar-chart" aria-label="Grafik pesan enam bulan">
+        <div class="chart-grid"></div>
+        <div class="bar-list">{% for value in message_values %}<span title="{{ value }} pesan" style="height: {{ (value / message_max * 100)|round(1) }}%"></span>{% endfor %}</div>
+        <div class="chart-axis">{% for label in chart_labels %}<span>{{ label }}</span>{% endfor %}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card-box h-100">
+      <div class="panel-heading"><div><span class="panel-kicker">Live feed</span><h4>Aktivitas Terbaru</h4></div></div>
+      <ul class="activity-list">
+        {% for service in recent_services %}
+        <li><span class="dot"></span> Layanan baru: {{ service.nama_layanan }}</li>
+        {% endfor %}
+        {% for announcement in recent_announcements %}
+        <li><span class="dot"></span> Pengumuman: {{ announcement.judul }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card-box h-100">
+      <div class="panel-heading"><div><span class="panel-kicker">Inbox</span><h4>Pesan Terbaru</h4></div><a href="{{ url_for('admin.messages') }}" class="panel-link">Lihat semua</a></div>
+      <ul class="activity-list">
+        {% for message in recent_messages %}
+        <li><span class="dot"></span> {{ message.nama }} - {{ message.subjek }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

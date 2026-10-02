@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Kontak | Unit Indrapura{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('public.index') }}">
+      <img class="brand-logo" src="{{ url_for('static', filename='img/logo-bri.png') }}" alt="Logo BRI">
+      <div>
+        <div class="fw-bold text-primary">Unit Indrapura</div>
+        <small class="text-secondary">Informasi Pelayanan</small>
+      </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.index') }}">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.about') }}">Profil</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.services') }}">Layanan</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.announcements') }}">Pengumuman</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.faq') }}">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.messages') }}">Pesan Masyarakat</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.feedback') }}">Feedback</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{{ url_for('public.contact') }}">Kontak</a></li>
+      </ul>
+    </div>
+
+    <div class="navbar-actions d-flex align-items-center gap-2 ms-auto ms-lg-3">
+      <a href="{{ url_for('auth.login') }}" class="btn btn-primary rounded-pill px-4 nav-cta"><i class="bi bi-shield-lock me-2"></i>Login Admin</a>
+    </div>
+    </div>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-tag">Kontak</span>
+    <h1>Hubungi Unit Indrapura</h1>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="card-box h-100">
+          <h3>Informasi Kontak</h3>
+          <ul class="contact-list">
+            <li><i class="bi bi-telephone"></i> {{ settings.telepon if settings else '(0751) 123456' }}</li>
+            <li><i class="bi bi-envelope"></i> {{ settings.email if settings else 'info@unitindrapura.com' }}</li>
+            <li><i class="bi bi-geo-alt"></i> {{ settings.alamat if settings else 'Jl. Indrapura' }}</li>
+            <li><i class="bi bi-clock"></i> {{ settings.jam_operasional if settings else 'Senin - Jumat, 08:00 - 16:00' }}</li>
+          </ul>
+          <div class="mt-4">
+            {{ settings.maps|safe if settings and settings.maps else '<iframe src="https://www.google.com/maps?q=indrapura&output=embed" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>' }}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="card-box">
+          <h3>Form Pertanyaan</h3>
+          <form method="POST" action="{{ url_for('public.contact') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Nama</label>
+                <input class="form-control" type="text" name="nama" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input class="form-control" type="email" name="email" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Nomor Telepon</label>
+                <input class="form-control" type="text" name="telepon" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Subjek</label>
+                <select class="form-select" name="subjek" required>
+                  <option value="" selected disabled>Pilih subjek pertanyaan</option>
+                  <option value="Informasi layanan">Informasi layanan</option>
+                  <option value="Pembukaan rekening">Pembukaan rekening</option>
+                  <option value="Kartu dan ATM">Kartu dan ATM</option>
+                  <option value="Kredit">Kredit</option>
+                  <option value="Keluhan">Keluhan</option>
+                  <option value="Saran">Saran</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Pesan</label>
+                <textarea class="form-control" name="pesan" rows="5" required></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary px-4">Kirim Pesan</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 Unit Indrapura. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+{% endblock %}

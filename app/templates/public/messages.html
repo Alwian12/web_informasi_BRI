@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+
+{% block title %}Pesan Masyarakat | Unit Indrapura{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('public.index') }}">
+      <img class="brand-logo" src="{{ url_for('static', filename='img/logo-bri.png') }}" alt="Logo BRI">
+      <div>
+        <div class="fw-bold text-primary">Unit Indrapura</div>
+        <small class="text-secondary">Informasi Pelayanan</small>
+      </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.index') }}">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.about') }}">Profil</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.services') }}">Layanan</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.announcements') }}">Pengumuman</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.faq') }}">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{{ url_for('public.messages') }}">Pesan Masyarakat</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.contact') }}">Kontak</a></li>
+      </ul>
+    </div>
+
+    <div class="navbar-actions d-flex align-items-center gap-2 ms-auto ms-lg-3">
+      <a href="{{ url_for('auth.login') }}" class="btn btn-primary rounded-pill px-4 nav-cta"><i class="bi bi-shield-lock me-2"></i>Login Admin</a>
+    </div>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container text-center">
+    <span class="section-tag message-hero-tag"><i class="bi bi-chat-square-text me-2"></i>Ruang Suara Masyarakat</span>
+    <h1 class="display-5 fw-bold mb-3">Pesan Masyarakat</h1>
+    <p class="lead mb-0">Temukan pertanyaan, masukan, dan tanggapan resmi Unit Indrapura dalam satu ruang yang terbuka.</p>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    {% set answered_count = messages|selectattr('reply')|list|length %}
+    {% set waiting_count = messages|length - answered_count %}
+    <div class="message-overview mb-5">
+      <div>
+        <span class="section-tag">Pembaruan layanan</span>
+        <h2 class="h3 mt-3 mb-2">Kami membaca setiap pesan.</h2>
+        <p class="text-muted mb-0">Pesan yang sudah ditinjau akan mendapat balasan dari tim Unit Indrapura.</p>
+      </div>
+      <div class="message-stats" aria-label="Ringkasan pesan">
+        <div class="message-stat"><strong>{{ messages|length }}</strong><span>Total pesan</span></div>
+        <div class="message-stat message-stat-success"><strong>{{ answered_count }}</strong><span>Sudah dijawab</span></div>
+        <div class="message-stat message-stat-warning"><strong>{{ waiting_count }}</strong><span>Menunggu balasan</span></div>
+      </div>
+    </div>
+    {% if messages %}
+    <div class="row g-4">
+      {% for msg in messages %}
+      <div class="col-lg-6">
+        <div class="message-card h-100">
+          <div class="message-header">
+            <div>
+              <h5 class="mb-1">{{ msg.nama }}</h5>
+              <small class="text-muted">
+                <i class="bi bi-calendar-event me-1"></i>{{ msg.created_at.strftime('%d %B %Y') }}
+              </small>
+            </div>
+            {% if msg.reply %}
+            <span class="badge bg-info text-white">
+              <i class="bi bi-check-circle me-1"></i>Terjawab
+            </span>
+            {% else %}
+            <span class="badge bg-warning text-dark">
+              <i class="bi bi-clock me-1"></i>Menunggu balasan
+            </span>
+            {% endif %}
+          </div>
+          
+          <div class="message-subject mt-3 mb-2">
+            <strong>Subjek:</strong> {{ msg.subjek }}
+          </div>
+          
+          <div class="message-body">
+            <p>{{ msg.pesan }}</p>
+          </div>
+
+          {% if msg.reply %}
+          <div class="message-reply mt-3 pt-3 border-top">
+            <div class="alert alert-info mb-0" style="background-color: rgba(13, 202, 240, 0.1); border-color: rgba(13, 202, 240, 0.3);">
+              <h6 class="text-info mb-2">
+                <i class="bi bi-reply-all me-2"></i>Balasan dari Unit Indrapura
+              </h6>
+              <p style="white-space: pre-wrap; margin: 0;">{{ msg.reply }}</p>
+              <small class="text-muted d-block mt-2">
+                <i class="bi bi-calendar-event me-1"></i>
+                {{ msg.replied_at.strftime('%d %B %Y') }}
+              </small>
+            </div>
+          </div>
+          {% endif %}
+          
+          <div class="message-footer mt-3 pt-3 border-top">
+            <small class="text-muted">
+              <i class="bi bi-envelope me-1"></i>{{ msg.email }}
+              {% if msg.telepon %}
+              <br><i class="bi bi-telephone me-1"></i>{{ msg.telepon }}
+              {% endif %}
+            </small>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <i class="bi bi-chat-left-dots" style="font-size: 3rem; color: var(--secondary); margin-bottom: 20px; display: block;"></i>
+      <h4>Belum ada pesan yang ditampilkan</h4>
+      <p class="text-muted mb-4">Pesan dari masyarakat akan ditampilkan di sini setelah diverifikasi oleh admin.</p>
+      <a href="{{ url_for('public.contact') }}" class="btn btn-primary rounded-pill px-4">
+        <i class="bi bi-pencil-square me-2"></i>Kirim Pesan
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="py-5 bg-soft">
+  <div class="container text-center cta-box">
+    <h2>Ingin Berbagi Pesan atau Masukan?</h2>
+    <p>Kami menghargai setiap pesan dan masukan dari masyarakat untuk meningkatkan layanan kami.</p>
+    <a href="{{ url_for('public.contact') }}" class="btn btn-primary btn-lg rounded-pill px-4">Kirim Pesan Anda</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <h5>Unit Indrapura</h5>
+        <p>Website informasi pelayanan perbankan modern untuk memudahkan masyarakat mengakses layanan dan kebutuhan informasi.</p>
+      </div>
+      <div class="col-lg-2">
+        <h6>Menu Cepat</h6>
+        <ul>
+          <li><a href="{{ url_for('public.about') }}">Profil</a></li>
+          <li><a href="{{ url_for('public.services') }}">Layanan</a></li>
+          <li><a href="{{ url_for('public.announcements') }}">Pengumuman</a></li>
+          <li><a href="{{ url_for('public.faq') }}">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <h6>Kontak</h6>
+        <ul>
+          <li>Telp: {{ settings.telepon if settings else '(0751) 123456' }}</li>
+          <li>Email: {{ settings.email if settings else 'info@unitindrapura.com' }}</li>
+          <li>Alamat: {{ settings.alamat if settings else 'Jl. Indrapura' }}</li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <h6>Jam Operasional</h6>
+        <p>{{ settings.jam_operasional if settings else 'Senin - Jumat, 08:00 - 16:00' }}</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Unit Indrapura. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+.message-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  transition: 0.3s ease;
+}
+
+.message-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.message-header h5 {
+  color: var(--primary);
+  margin: 0;
+  font-weight: 700;
+}
+
+.message-subject {
+  color: var(--secondary);
+  font-size: 0.95rem;
+}
+
+.message-body {
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.message-body p {
+  margin: 0;
+}
+
+.message-footer {
+  background: rgba(16, 42, 67, 0.02);
+  border-radius: 10px;
+  padding: 12px;
+  margin: 16px -24px -24px -24px;
+  border-radius: 0 0 16px 16px;
+}
+</style>
+{% endblock %}

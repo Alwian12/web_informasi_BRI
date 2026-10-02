@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}Profil | Unit Indrapura{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('public.index') }}">
+      <img class="brand-logo" src="{{ url_for('static', filename='img/logo-bri.png') }}" alt="Logo BRI">
+      <div>
+        <div class="fw-bold text-primary">Unit Indrapura</div>
+        <small class="text-secondary">Informasi Pelayanan</small>
+      </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.index') }}">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{{ url_for('public.about') }}">Profil</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.services') }}">Layanan</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.announcements') }}">Pengumuman</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.faq') }}">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.messages') }}">Pesan Masyarakat</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.contact') }}">Kontak</a></li>
+      </ul>
+    </div>
+
+    <div class="navbar-actions d-flex align-items-center gap-2 ms-auto ms-lg-3">
+      <a href="{{ url_for('auth.login') }}" class="btn btn-primary rounded-pill px-4 nav-cta"><i class="bi bi-shield-lock me-2"></i>Login Admin</a>
+    </div>
+    </div>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-tag">Profil Unit</span>
+    <h1>Profil Unit Indrapura</h1>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-6">
+        <h2>Tentang Unit</h2>
+        <p>Unit Indrapura adalah unit pelayanan perbankan yang berkomitmen memberikan layanan terbaik, cepat, aman, dan transparan bagi masyarakat serta nasabah. Kami hadir untuk menjawab kebutuhan informasi pelayanan, transaksi, dan kebutuhan layanan perbankan modern.</p>
+        <p>Dengan semangat pelayanan prima, Unit Indrapura terus meningkatkan kualitas layanan melalui teknologi digital, sumber daya manusia profesional, dan proses yang mudah dipahami oleh masyarakat.</p>
+      </div>
+      <div class="col-lg-6">
+        <div class="info-panel">
+          <div class="row g-3">
+            <div class="col-6"><div class="mini-box"><i class="bi bi-shield-check"></i><span>Aman</span></div></div>
+            <div class="col-6"><div class="mini-box"><i class="bi bi-lightning-charge"></i><span>Cepat</span></div></div>
+            <div class="col-6"><div class="mini-box"><i class="bi bi-eye"></i><span>Transparan</span></div></div>
+            <div class="col-6"><div class="mini-box"><i class="bi bi-people"></i><span>Ramah</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-soft">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="card-box h-100">
+          <h3>Visi</h3>
+          <p>Menjadi unit pelayanan perbankan yang unggul, modern, dan terpercaya dalam memberikan layanan prima bagi masyarakat.</p>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card-box h-100">
+          <h3>Misi</h3>
+          <ul class="check-list">
+            <li>Menyediakan layanan perbankan yang cepat dan mudah diakses.</li>
+            <li>Memberikan informasi yang akurat, jelas, dan transparan.</li>
+            <li>Menjaga keamanan dan kenyamanan nasabah dalam setiap transaksi.</li>
+            <li>Meningkatkan pelayanan berbasis teknologi digital.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <span class="section-tag">Nilai Layanan</span>
+      <h2>Komitmen yang kami jaga</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4"><div class="value-card"><i class="bi bi-star"></i><h4>Profesional</h4><p>Pelayanan dilakukan dengan standar profesional dan berintegritas.</p></div></div>
+      <div class="col-md-4"><div class="value-card"><i class="bi bi-speedometer2"></i><h4>Cepat</h4><p>Proses layanan dirancang agar mudah dan efisien untuk masyarakat.</p></div></div>
+      <div class="col-md-4"><div class="value-card"><i class="bi bi-check-circle"></i><h4>Transparan</h4><p>Setiap informasi layanan disampaikan secara jelas dan terbuka.</p></div></div>
+      <div class="col-md-4"><div class="value-card"><i class="bi bi-shield-lock"></i><h4>Aman</h4><p>Keamanan data dan transaksi menjadi perhatian utama kami.</p></div></div>
+      <div class="col-md-4"><div class="value-card"><i class="bi bi-emoji-smile"></i><h4>Ramah</h4><p>Kami selalu siap membantu masyarakat dengan sopan dan responsif.</p></div></div>
+      <div class="col-md-4"><div class="value-card"><i class="bi bi-lightbulb"></i><h4>Inovatif</h4><p>Memanfaatkan teknologi untuk meningkatkan pengalaman layanan.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 Unit Indrapura. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+{% endblock %}

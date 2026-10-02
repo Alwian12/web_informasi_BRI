@@ -1,0 +1,14 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %}Edit FAQ | Unit Indrapura{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3"><h3>Edit FAQ</h3><a href="{{ url_for('admin.faqs') }}" class="btn btn-outline-secondary">Kembali</a></div>
+<div class="card-box">
+  <form method="POST" class="row g-3">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="col-12"><label class="form-label">Pertanyaan</label><input class="form-control" name="pertanyaan" value="{{ faq.pertanyaan }}" required></div>
+    <div class="col-12"><label class="form-label">Jawaban</label><textarea class="form-control" name="jawaban" rows="6" required>{{ faq.jawaban }}</textarea></div>
+    <div class="col-md-6"><label class="form-label">Status</label><select class="form-select" name="status"><option value="aktif" {% if faq.status == 'aktif' %}selected{% endif %}>Aktif</option><option value="tidak_aktif" {% if faq.status == 'tidak_aktif' %}selected{% endif %}>Tidak Aktif</option></select></div>
+    <div class="col-12"><button class="btn btn-primary" type="submit">Simpan Perubahan</button></div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Manajemen Layanan | Unit Indrapura{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Manajemen Layanan</h3>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#serviceModal">
+    <i class="bi bi-plus-circle me-2"></i>Tambah Layanan
+  </button>
+</div>
+
+<div class="card-box">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama Layanan</th>
+          <th>Kategori</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for service in services %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ service.nama_layanan }}</td>
+          <td>{{ service.category.nama_kategori }}</td>
+          <td><span class="badge bg-success">{{ service.status }}</span></td>
+          <td>
+            <div class="action-btn-group">
+              <a class="action-btn action-btn--edit" href="{{ url_for('admin.edit_service', service_id=service.id) }}">
+                <i class="bi bi-pencil-square"></i> Edit
+              </a>
+              <a class="action-btn btn btn-sm btn-outline-primary" href="{{ url_for('public.service_detail', slug=service.slug) }}" target="_blank">
+                <i class="bi bi-eye"></i> Lihat
+              </a>
+              <form class="d-inline" method="POST" action="{{ url_for('admin.delete_service', service_id=service.id) }}" data-confirm-delete data-confirm-title="Hapus layanan ini?" data-confirm-text="Layanan yang dihapus akan hilang dari daftar publik. Apakah Anda yakin ingin melanjutkan?">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="action-btn action-btn--delete" type="submit">
+                  <i class="bi bi-trash3"></i> Hapus
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-secondary">Belum ada layanan.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" id="serviceModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form method="POST" action="{{ url_for('admin.services') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <div class="modal-header">
+          <h5 class="modal-title">Tambah Layanan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Nama Layanan</label>
+            <input type="text" class="form-control" name="nama_layanan" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Kategori</label>
+            <select class="form-select" name="category_id" required>
+              {% for category in categories %}
+              <option value="{{ category.id }}">{{ category.nama_kategori }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Deskripsi</label>
+            <textarea class="form-control" rows="3" name="deskripsi" required></textarea>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Persyaratan</label>
+            <textarea class="form-control" rows="3" name="persyaratan" required></textarea>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Prosedur</label>
+            <textarea class="form-control" rows="3" name="prosedur" required></textarea>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Estimasi Waktu</label>
+            <input type="text" class="form-control" name="estimasi_waktu" value="15-30 Menit">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Status</label>
+            <select class="form-select" name="status">
+              <option value="aktif">Aktif</option>
+              <option value="tidak_aktif">Tidak Aktif</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

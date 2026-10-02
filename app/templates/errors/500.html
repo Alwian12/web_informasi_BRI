@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}500 - Server Error{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container text-center">
+    <span class="section-tag">Error 500</span>
+    <h1>Kesalahan Server</h1>
+    <p>Terjadi masalah pada server saat memproses permintaan Anda.</p>
+    <a href="{{ url_for('public.index') }}" class="btn btn-primary rounded-pill px-4 mt-3">Kembali ke Beranda</a>
+  </div>
+</section>
+{% endblock %}

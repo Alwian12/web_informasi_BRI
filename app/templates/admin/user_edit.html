@@ -1,0 +1,17 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %}Edit Admin | Unit Indrapura{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3"><h3>Edit Admin</h3><a href="{{ url_for('admin.users') }}" class="btn btn-outline-secondary">Kembali</a></div>
+<div class="card-box">
+  <form method="POST" class="row g-3">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="col-md-6"><label class="form-label">Nama</label><input class="form-control" name="name" value="{{ user.name }}" required></div>
+    <div class="col-md-6"><label class="form-label">Username</label><input class="form-control" value="{{ user.username }}" disabled></div>
+    <div class="col-12"><label class="form-label">Email</label><input type="email" class="form-control" name="email" value="{{ user.email }}" required></div>
+    <div class="col-md-6"><label class="form-label">Role</label><select class="form-select" name="role"><option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option><option value="super_admin" {% if user.role == 'super_admin' %}selected{% endif %}>Super Admin</option></select></div>
+    <div class="col-md-6"><label class="form-label">Status</label><select class="form-select" name="status"><option value="active" {% if user.status == 'active' %}selected{% endif %}>Active</option><option value="inactive" {% if user.status == 'inactive' %}selected{% endif %}>Inactive</option></select></div>
+    <div class="col-12"><label class="form-label">Password Baru <span class="text-secondary">(kosongkan jika tidak diubah)</span></label><input type="password" class="form-control" name="password" minlength="8"></div>
+    <div class="col-12"><button class="btn btn-primary" type="submit">Simpan Perubahan</button></div>
+  </form>
+</div>
+{% endblock %}

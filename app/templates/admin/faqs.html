@@ -1,0 +1,52 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}FAQ | Unit Indrapura{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Manajemen FAQ</h3>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#faqModal">Tambah FAQ</button>
+</div>
+<div class="card-box">
+  <table class="table table-hover">
+    <thead><tr><th>No</th><th>Pertanyaan</th><th>Status</th><th>Aksi</th></tr></thead>
+    <tbody>
+      {% for faq in faqs %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ faq.pertanyaan }}</td>
+        <td><span class="badge bg-success">{{ faq.status }}</span></td>
+        <td>
+          <div class="action-btn-group">
+            <a class="action-btn action-btn--edit" href="{{ url_for('admin.edit_faq', faq_id=faq.id) }}"><i class="bi bi-pencil-square"></i> Edit</a>
+            <form method="POST" action="{{ url_for('admin.delete_faq', faq_id=faq.id) }}" data-confirm-delete data-confirm-title="Hapus FAQ ini?" data-confirm-text="FAQ yang dihapus tidak akan tampil lagi di website. Apakah Anda yakin ingin melanjutkan?">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button class="action-btn action-btn--delete" type="submit"><i class="bi bi-trash3"></i> Hapus</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4" class="text-center text-secondary">Belum ada FAQ.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" id="faqModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="{{ url_for('admin.faqs') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <div class="modal-header"><h5 class="modal-title">Tambah FAQ</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body">
+          <div class="mb-3"><label class="form-label">Pertanyaan</label><input type="text" class="form-control" name="pertanyaan" required></div>
+          <div class="mb-3"><label class="form-label">Jawaban</label><textarea class="form-control" name="jawaban" rows="4" required></textarea></div>
+          <div class="mb-3"><label class="form-label">Status</label><select class="form-select" name="status"><option value="aktif">Aktif</option><option value="tidak_aktif">Tidak Aktif</option></select></div>
+        </div>
+        <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary">Simpan</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

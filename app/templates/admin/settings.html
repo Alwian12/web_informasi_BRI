@@ -1,0 +1,25 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Pengaturan | Unit Indrapura{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card-box">
+      <h3>Pengaturan Instansi</h3>
+      <form method="POST" action="{{ url_for('admin.settings') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <div class="row g-3">
+          <div class="col-md-6"><label class="form-label">Nama Instansi</label><input type="text" class="form-control" name="nama_instansi" value="{{ setting.nama_instansi if setting else '' }}" required></div>
+          <div class="col-md-6"><label class="form-label">Telepon</label><input type="text" class="form-control" name="telepon" value="{{ setting.telepon if setting else '' }}" required></div>
+          <div class="col-md-6"><label class="form-label">Email Kantor</label><input type="email" class="form-control" name="email" value="{{ setting.email if setting else '' }}" required><small class="text-secondary">Digunakan sebagai alamat pengirim balasan Pesan.</small></div>
+          <div class="col-md-6"><label class="form-label">Jam Operasional</label><input type="text" class="form-control" name="jam_operasional" value="{{ setting.jam_operasional if setting else '' }}" required></div>
+          <div class="col-12"><label class="form-label">Alamat</label><textarea class="form-control" name="alamat" rows="3" required>{{ setting.alamat if setting else '' }}</textarea></div>
+          <div class="col-12"><label class="form-label">Google Maps Embed</label><textarea class="form-control" name="maps" rows="4">{{ setting.maps if setting else '' }}</textarea></div>
+          <div class="col-12"><button type="submit" class="btn btn-primary">Simpan Pengaturan</button></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

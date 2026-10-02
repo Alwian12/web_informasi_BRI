@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Layanan | Unit Indrapura{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('public.index') }}">
+      <img class="brand-logo" src="{{ url_for('static', filename='img/logo-bri.png') }}" alt="Logo BRI">
+      <div>
+        <div class="fw-bold text-primary">Unit Indrapura</div>
+        <small class="text-secondary">Informasi Pelayanan</small>
+      </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.index') }}">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.about') }}">Profil</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{{ url_for('public.services') }}">Layanan</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.announcements') }}">Pengumuman</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.faq') }}">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.messages') }}">Pesan Masyarakat</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('public.contact') }}">Kontak</a></li>
+      </ul>
+    </div>
+
+    <div class="navbar-actions d-flex align-items-center gap-2 ms-auto ms-lg-3">
+      <a href="{{ url_for('auth.login') }}" class="btn btn-primary rounded-pill px-4 nav-cta"><i class="bi bi-shield-lock me-2"></i>Login Admin</a>
+    </div>
+    </div>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-tag">Layanan</span>
+    <h1>Semua Layanan Perbankan</h1>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4 mb-4">
+      <div class="col-lg-8">
+        <form method="GET" action="{{ url_for('public.services') }}" class="search-bar">
+          <input type="text" name="q" value="{{ q }}" placeholder="Cari layanan, kategori, atau kata kunci..." />
+          <button type="submit" class="btn btn-primary">Cari</button>
+        </form>
+      </div>
+      <div class="col-lg-4">
+        <select class="form-select form-select-lg" onchange="window.location='{{ url_for('public.services') }}?category='+this.value">
+          <option value="">Semua Kategori</option>
+          {% for category in categories %}
+          <option value="{{ category.id }}" {% if selected_category == category.id %}selected{% endif %}>{{ category.nama_kategori }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      {% for service in services %}
+      <div class="col-lg-4 col-md-6">
+        <div class="service-card h-100">
+          <div class="icon-wrap"><i class="bi bi-bank"></i></div>
+          <h4>{{ service.nama_layanan }}</h4>
+          <span class="badge bg-light text-primary mb-3">{{ service.category.nama_kategori }}</span>
+          <p>{{ service.deskripsi[:150] }}...</p>
+          <a href="{{ url_for('public.service_detail', slug=service.slug) }}" class="btn btn-primary rounded-pill mt-3">Detail</a>
+        </div>
+      </div>
+      {% else %}
+      <div class="col-12">
+        <div class="empty-state">Belum ada layanan tersedia.</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 Unit Indrapura. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+{% endblock %}
